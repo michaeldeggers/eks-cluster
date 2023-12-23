@@ -2,7 +2,7 @@
 # EKS Module
 ################################################################################
 locals {
-  name            = "${replace(basename("${var.organization}-eks"), "_", "-")}"
+  name            = replace(basename("${var.organization}-eks"), "_", "-")
   cluster_version = "1.27"
   region          = "us-east-1"
 
