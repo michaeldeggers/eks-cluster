@@ -2,7 +2,7 @@
 # EKS Module
 ################################################################################
 locals {
-  name            = "${replace(basename("${var.organization}-${var.project_name}"), "_", "-")}"
+  name            = "${replace(basename("${var.organization}-eks"), "_", "-")}"
   cluster_version = "1.27"
   region          = "us-east-1"
 
@@ -192,7 +192,7 @@ resource "kubectl_manifest" "karpenter_node_pool" {
               operator: Gt
               values: ["2"]
       limits:
-        cpu: 1000
+        cpu: 50
       disruption:
         consolidationPolicy: WhenEmpty
         consolidateAfter: 30s

@@ -44,6 +44,16 @@ provider "aws" {
   }
 }
 
+provider "aws" {
+  # Configuration options
+  region = "us-east-1"
+  alias  = "virginia"
+  assume_role {
+    role_arn     = "arn:aws:iam::${var.aws_account_id}:role/eggs-projects-deploy-role"
+    session_name = "Session_GitHub_Actions"
+  }
+}
+
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
