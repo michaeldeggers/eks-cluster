@@ -42,6 +42,15 @@ provider "aws" {
     role_arn     = "arn:aws:iam::${var.aws_account_id}:role/eggs-projects-deploy-role"
     session_name = "Session_GitHub_Actions"
   }
+
+  default_tags {
+    tags = merge(
+      local.base_tags,
+      {
+        environment = "development"
+      },
+    )
+  }
 }
 
 provider "aws" {
@@ -51,6 +60,15 @@ provider "aws" {
   assume_role {
     role_arn     = "arn:aws:iam::${var.aws_account_id}:role/eggs-projects-deploy-role"
     session_name = "Session_GitHub_Actions"
+  }
+
+  default_tags {
+    tags = merge(
+      local.base_tags,
+      {
+        environment = "development"
+      },
+    )
   }
 }
 

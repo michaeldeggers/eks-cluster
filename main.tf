@@ -9,10 +9,10 @@ locals {
   vpc_cidr = "10.0.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
-  tags = {
-    Example    = local.name
-    GithubRepo = "terraform-aws-eks"
-    GithubOrg  = "terraform-aws-modules"
+  base_tags = {
+    owner = "${var.organization}-${var.project_name}"
+    repo  = var.project_name
+    org   = var.organization
   }
 }
 
@@ -88,7 +88,7 @@ module "eks" {
     }
   }
 
-  tags = merge(local.tags, {
+  tags = merge(local.base_tags, {
     # NOTE - if creating multiple security groups with this module, only tag the
     # security group that Karpenter should utilize with the following tag
     # (i.e. - at most, only one security group should have this tag in your account)
@@ -116,7 +116,7 @@ module "karpenter" {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
 
-  tags = local.tags
+  tags = local.base_tags
 }
 
 resource "helm_release" "karpenter" {
@@ -264,5 +264,5 @@ module "vpc" {
     "karpenter.sh/discovery" = local.name
   }
 
-  tags = local.tags
+  tags = local.base_tags
 }
